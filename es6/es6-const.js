@@ -63,3 +63,19 @@ var constantize = (obj) => {
     });
   };
 
+
+//顶层对象，在浏览器指的是window对象，在Node指的是global对象。ES5之中
+//顶层对象的属性和全局变量是等价的。
+window.a = 1;
+console.log(a);//1
+var b = 2;
+console.log(window.b);//2
+
+//顶层对象的属性和全局变量挂钩是JS语言设计的败笔之一。ES6为了改变这一点，一方面规定
+//为了保持兼容性，var 命令和 function 命令声明的全局变量，依旧是顶层对象的属性；
+//另一方面规定， let命令、 const命令、 class命令声明的全局变量不再是顶层对象
+//的属性。也就是说，从ES6开始全局变量将逐渐于顶层对象的属性脱钩。
+var c = 1;
+console.log(window.c);//1
+let d = 2;
+console.log(window.d);//undefined
