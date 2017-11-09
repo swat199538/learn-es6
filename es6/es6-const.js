@@ -79,3 +79,16 @@ var c = 1;
 console.log(window.c);//1
 let d = 2;
 console.log(window.d);//undefined
+
+
+//gobal对象，es5的顶层对象，本身是一个问题，因为它在各种实现里面是不统一的
+//浏览器里面，顶层对象是window，但Node和Web Worker 没有window。
+//浏览器和web work里面，self 也指向顶层对象， 但是Node没有self.
+//Node里面，顶层独享是gloal,但其它环境都不支持。
+//同一段代码为了能在各种环境，都取到顶层变量，现在一般使用this变量，但是有局限性
+//全局环境中this是会返回顶层对象。但是Node模块和ES6模块中，this返回的是当前模块
+//函数里面的this，如果函数不是作为对象的方法运行，而是单纯作为函数运行, this会
+//指向顶层对象。但是，严格模式下this会返回，undefined。
+//不管严格模式还是普通模式， new function('return this')(),总会返回全局对象。
+//但是如果浏览器用了CSP(Content Security Policy，内容安全政策),那么eval, new
+//Function 这些方法都无法使用。
