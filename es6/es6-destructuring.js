@@ -54,3 +54,66 @@ let [ad1, bd1 = 'b'] = ['a', undefined]
 //成员不严格等于undefined，默认值是不会生效的。
 let [xd=1] = [undefined];
 let [xd2=2] = [null];
+
+//如果默认值是一个表达式，那么这个表达式是惰性求值的，即只有用到的时候才会求值
+function fs(){
+    console.log('惰性求值');
+}
+let [xf = fs()] = [1];
+//上面的函数中因为xf能够取到值，所以fs根本不会执行。上面的代码其实等价于下面代码
+let xff;
+if([1][0] === undefined){
+    xff = fs();
+} else{
+    xff = [1][0];
+}
+
+//默认值可以引用解构赋值的其它变量，但该变量必须已经声明
+let [cc=1, cy=cc] = [];
+// let [ccc=ccy, ccy=2] = []; //报错因为CCY还没有赋值 ccy is not defined
+
+
+//解构赋值不及可以用于数组也可以用于对象
+let {tny, tgn} = {tny:1, tgn:2}
+
+//对象的解构赋值和数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由
+//它的位置决定；而对象的属性没有次序，变量必须与属性同名才能取到正确的值
+let {ttl, ocg} = {ocg:5, ttl:1}
+console.log(ttl);//1
+console.log(ocg);//5
+let {omg} = {ffd:1, dd1:1};
+console.log(omg);//undefined
+
+//如果变量名与属性名不一致，必须写成下面这样
+let obj = {first:'hello', last:'word'}
+let {first:al, last:fgf} = obj;
+console.log(al);
+console.log(fgf);
+
+//这实际说明，对象的解构赋值是下面的简写
+let {foof:foof, barx3:barx3} = {foof:'aaa', barx3:'ddd'};
+console.log(foof);
+console.log(barx3);
+//也就是说对象内部的赋值机制是，先找同名属性，然后在赋给对应的变量。真正被赋值的是
+//后者而不是前者。
+let {foods:bartt} = {foods:124, bartt:'xxx'};
+console.log(bartt);
+// console.log(foods);//foods is not defined
+//上面的代码中foods是匹配的模式，bartt才是变量。真正赋值的是变量bartt，而不是模式foods
+
+//与数组一样，解构也可用于嵌套结构的对象
+let objx = {
+    p:[
+        'hello',
+        {ywd: 'world'}
+    ]
+};
+let {p:[xxg, {ywd}]} = objx;
+//注意P是模式而不是变量，因此不会被赋值。如果P也要作为变量赋值，可以写成下面这样
+let objxs = {
+    ps:[
+        'ok',
+        {ywds:'no'}
+    ]
+}
+let {ps, ps:[xxd,{ywds}]} = objxs;
